@@ -5,6 +5,7 @@ from settings import URL, PORT, VOTES_URL, SECURITY_URL
 from routes.elections.mesas import mesas_bp
 from routes.security.user import user_bp
 from routes.elections.partidos import partidos_bp
+from routes.elections.candidato import candidato_bp
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -20,6 +21,7 @@ def ping():
 app.register_blueprint(mesas_bp, url_prefix ="/regisNal")
 app.register_blueprint(partidos_bp, url_prefix = "/regisNalP")
 app.register_blueprint(user_bp, url_prefix ="/users")
+app.register_blueprint(candidato_bp, url_prefix= "/regisNalC")
 
 EXCLUDED_URLS = ["/", "/login"]
 

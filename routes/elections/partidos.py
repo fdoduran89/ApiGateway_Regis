@@ -38,3 +38,35 @@ def partidos():
         return jsonify({
             "message": "Hubo un error al obtener la lista de partidos"
         }), 500
+
+@partidos_bp.route("/<string:nombre_partido>", methods=["DELETE"])
+def delete_partido(nombre_partido):
+    headers = {
+        "Content-Type": "application/json"
+    }
+    response = requests.delete(
+        url=f"{VOTES_URL}/regisNalP/{nombre_partido}",
+        headers=headers
+    )
+    if response.status_code == 500:
+        return jsonify({
+            "message": "Hubo un error al borrar el partido"
+        }), 500
+    else:
+        return jsonify(response.json()), response.status_code
+
+@partidos_bp.route("/<string:nombre_partido>", methods=["PUT"])
+def update_partido(nombre_partido):
+    headers = {
+        "Content-Type": "application/json"
+    }
+    response = requests.put(
+        url=f"{VOTES_URL}/regisNalP/{nombre_partido}",
+        headers=headers
+    )
+    if response.status_code == 500:
+        return jsonify({
+            "message": "Hubo un error al actualizar el partido"
+        }), 500
+    else:
+        return jsonify(response.json()), response.status_code

@@ -38,3 +38,35 @@ def mesas():
         return jsonify({
             "message": "Hubo un error al obtener la lista de mesas"
         }), 500
+
+@mesas_bp.route("/<string:mesaId>", methods=["DELETE"])
+def delete_mesa(mesaId):
+    headers = {
+        "Content-Type": "application/json"
+    }
+    response = requests.delete(
+        url=f"{VOTES_URL}/regisNal/{mesaId}",
+        headers=headers
+    )
+    if response.status_code == 500:
+        return jsonify({
+            "message": "Hubo un error al borrar la mesa"
+        }), 500
+    else:
+        return jsonify(response.json()), response.status_code
+
+@mesas_bp.route("/<string:mesaId>", methods=["PUT"])
+def update_partido(mesaId):
+    headers = {
+        "Content-Type": "application/json"
+    }
+    response = requests.put(
+        url=f"{VOTES_URL}/regisNal/{mesaId}",
+        headers=headers
+    )
+    if response.status_code == 500:
+        return jsonify({
+            "message": "Hubo un error al actualizar la mesa"
+        }), 500
+    else:
+        return jsonify(response.json()), response.status_code

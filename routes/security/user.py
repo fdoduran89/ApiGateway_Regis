@@ -37,3 +37,5 @@ def delete_user(userid):
         }), 500
     else:
         return jsonify(response.json()), response.status_code
+
+
