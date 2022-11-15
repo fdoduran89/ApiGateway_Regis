@@ -57,13 +57,11 @@ def delete_partido(nombre_partido):
 
 @partidos_bp.route("/<string:nombre_partido>", methods=["PUT"])
 def update_partido(nombre_partido):
-    headers = {
-        "Content-Type": "application/json"
-    }
-    response = requests.put(
-        url=f"{VOTES_URL}/regisNalP/{nombre_partido}",
-        headers=headers
-    )
+    body = request.get_json()
+    headers = { "Content-Type": "application/json"}
+    response = requests.put( url=f"{VOTES_URL}/regisNalP/{nombre_partido}",  # localhost:5000/parties (ms votaciones)
+        json=body,
+        headers=headers)
     if response.status_code == 500:
         return jsonify({
             "message": "Hubo un error al actualizar el partido"

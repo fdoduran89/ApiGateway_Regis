@@ -57,11 +57,13 @@ def delete_mesa(mesaId):
 
 @mesas_bp.route("/<string:mesaId>", methods=["PUT"])
 def update_partido(mesaId):
+    body = request.get_json()
     headers = {
         "Content-Type": "application/json"
     }
     response = requests.put(
         url=f"{VOTES_URL}/regisNal/{mesaId}",
+        json=body,
         headers=headers
     )
     if response.status_code == 500:
