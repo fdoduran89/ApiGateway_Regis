@@ -54,3 +54,21 @@ def delete_candidato(candidatoId):
         }), 500
     else:
         return jsonify(response.json()), response.status_code
+
+@candidato_bp.route("/<string:candidatoId>", methods=["PUT"])
+def update_candidato(candidatoId):
+    body = request.get_json()
+    headers = {
+        "Content-Type": "application/json"
+    }
+    response = requests.put(
+        url=f"{VOTES_URL}/regisNalC/{candidatoId}",
+        json=body,
+        headers=headers
+    )
+    if response.status_code == 200:
+        return jsonify(response.json()), 200
+    else:
+        return jsonify({
+            "message": "Hubo un error al actualizar el candidato"
+        }), 500
