@@ -2,73 +2,71 @@ from flask import request, jsonify, Blueprint
 import requests
 from settings import SECURITY_URL
 
-user_bp = Blueprint("user_blueprint", __name__)
+role_bp = Blueprint("role_blueprint",__name__)
 
-@user_bp.route("/<string:roleid>", methods=["POST"])
-def create_user(roleid):
+@role_bp.route("", methods=["POST"])
+def create_role():
     body = request.get_json()
     headers = {
         "Content-Type": "application/json"
     }
     response = requests.post(
-        url=f"{SECURITY_URL}/users?roleId={roleid}",
+        url=f"{SECURITY_URL}/roles",
         json=body,
         headers=headers
     )
     if response.status_code == 500:
         return jsonify({
-            "message": "Hubo un error al crear usuario"
+            "message": "Hubo un error al crear el rol"
         }), 500
     else:
         return jsonify(response.json()), response.status_code
 
-@user_bp.route("", methods=["GET"])
-def users():
+@role_bp.route("", methods=["GET"])
+def roles():
     headers = {
         "Content-Type": "application/json"
     }
     response = requests.get(
-        url=f"{SECURITY_URL}/users",
+        url=f"{SECURITY_URL}/roles",
         headers=headers
     )
     if response.status_code == 500:
         return jsonify({
-            "message": "Hubo un error al obtener la información de los usuarios"
+            "message": "Hubo un error al obtener la información de los roles"
         }), 500
     else:
         return jsonify(response.json()), response.status_code
 
-@user_bp.route("/<string:user_id>", methods=["GET"])
-def user(user_id):
+@role_bp.route("/<string:role_id>", methods=["GET"])
+def role(role_id):
     headers = {
         "Content-Type": "application/json"
     }
     response = requests.get(
-        url=f"{SECURITY_URL}/users/{user_id}",
+        url=f"{SECURITY_URL}/roles/{role_id}",
         headers=headers
     )
     if response.status_code == 200:
         return jsonify(response.json()), 200
     else:
         return jsonify({
-            "message": "Hubo un error al obtener la información del usuario"
+            "message": "Hubo un error al obtener la información del rol"
         }), 500
 
-@user_bp.route("/<string:userid>", methods=["DELETE"])
-def delete_user(userid):
+@role_bp.route("/<string:role_id>", methods=["DELETE"])
+def delete_role(role_id):
     headers = {
         "Content-Type": "application/json",
         "Authorization": request.headers.get("Authorization")
     }
     response = requests.delete(
-        url=f"{SECURITY_URL}/users/{userid}",
+        url=f"{SECURITY_URL}/roles/{role_id}",
         headers=headers
     )
     if response.status_code == 500:
         return jsonify({
-            "message": "Hubo un error al borrar usuario"
+            "message": "Hubo un error al borrar el rol"
         }), 500
     else:
         return jsonify(response.json()), response.status_code
-
-
