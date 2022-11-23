@@ -17,7 +17,7 @@ def create_party():
     )
     if response.status_code == 201:
         return jsonify(response.json()), 201
-    else:  # status_code == 500
+    else:
         return jsonify({
             "message": "Hubo un error al crear la mesa"
         }), 500
@@ -29,12 +29,42 @@ def partidos():
         "Content-Type": "application/json"
     }
     response = requests.get(
-        url=f"{VOTES_URL}/regisNalP",  # localhost:5000/partidos
+        url=f"{VOTES_URL}/regisNalP",
         headers=headers
     )
     if response.status_code == 200:
         return jsonify(response.json()), 200
-    else:  # status_code == 500
+    else:
         return jsonify({
             "message": "Hubo un error al obtener la lista de partidos"
         }), 500
+
+@partidos_bp.route("/<string:nombre_partido>", methods=["DELETE"])
+def delete_partido(nombre_partido):
+    headers = {
+        "Content-Type": "application/json"
+    }
+    response = requests.delete(
+        url=f"{VOTES_URL}/regisNalP/{nombre_partido}",
+        headers=headers
+    )
+    if response.status_code == 200:
+        return jsonify(response.json()), 200
+    else:
+        return jsonify({
+            "message": "Hubo un error al obtener la información del partido"
+        }), 500
+
+@partidos_bp.route("/<string:nombre_partido>", methods=["PUT"])
+def update_partido(nombre_partido):
+    body = request.get_json()
+    headers = { "Content-Type": "application/json"}
+    response = requests.put( url=f"{VOTES_URL}/regisNalP/{nombre_partido}",  # localhost:5000/parties (ms votaciones)
+        json=body,
+        headers=headers)
+    if response.status_code == 500:
+        return jsonify({
+            "message": "Hubo un error al actualizar el partido"
+        }), 500
+    else:
+        return jsonify(response.json()), response.status_code
