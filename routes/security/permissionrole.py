@@ -70,3 +70,20 @@ def delete_permissionrole(permissionrole_id):
         }), 500
     else:
         return jsonify(response.json()), response.status_code
+
+@permissionrole_bp.route("/<string:permissionrole_id>/role/<string:role_id>", methods=["PUT"])
+def change_permissionrole(permissionrole_id, role_id):
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": request.headers.get("Authorization")
+    }
+    response = requests.delete(
+        url=f"{SECURITY_URL}/permissions-roles/{permissionrole_id}",
+        headers=headers
+    )
+    if response.status_code == 500:
+        return jsonify({
+            "message": "Hubo un error al borrar el permiso-rol"
+        }), 500
+    else:
+        return jsonify(response.json()), response.status_code

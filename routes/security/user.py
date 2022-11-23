@@ -25,7 +25,8 @@ def create_user(roleid):
 @user_bp.route("", methods=["GET"])
 def users():
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": request.headers.get("Authorization")
     }
     response = requests.get(
         url=f"{SECURITY_URL}/users",
@@ -41,7 +42,8 @@ def users():
 @user_bp.route("/<string:user_id>", methods=["GET"])
 def user(user_id):
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": request.headers.get("Authorization")
     }
     response = requests.get(
         url=f"{SECURITY_URL}/users/{user_id}",

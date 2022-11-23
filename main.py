@@ -25,17 +25,36 @@ app.register_blueprint(results_bp, url_prefix="/regisNalR")
 
 EXCLUDED_URLS = ["/", "/login"]
 
-'''@app.before_request
+@app.before_request
 def middleware():
     if request.path not in EXCLUDED_URLS:
         token = request.headers.get("Authorization")
         if token:
-            pass
-        else:
-            responseObject = {
-                "message": "Al parecer no has inicado sesión"
-            }
-            return make_response(jsonify(responseObject)), 401'''
+            response = validate_permissions(token, clean_path(request.path), request.method)
+            if response.status_code != 200:
+                if response.status_code != 200:
+                    return jsonify(response.json()), response.status_code
+
+
+def validate_permissions(token, url, method):
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": token
+    }
+    response = requests.post(
+        url=f"{SECURITY_URL}/permissions-roles/verify",
+        headers=headers,
+        json={
+            "url": url,
+            "method": method
+        }
+    )
+    return response
+
+
+def clean_path(path):
+    parts = path.split("/")
+    return "/" + parts[1]
 
 
 if __name__ == "__main__":
