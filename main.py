@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 import requests
-from settings import URL, PORT
+from settings import URL, PORT, SECURITY_URL
 from routes.elections.mesas import mesas_bp
 from routes.security.user import user_bp
 from routes.elections.partidos import partidos_bp
@@ -10,6 +10,7 @@ from routes.security.role import role_bp
 from routes.security.permission import permission_bp
 from routes.security.permissionrole import permissionrole_bp
 from routes.elections.results import results_bp
+from routes.security.authentication import authentication_bp
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -22,8 +23,9 @@ app.register_blueprint(role_bp, url_prefix="/roles")
 app.register_blueprint(permission_bp, url_prefix="/permissions")
 app.register_blueprint(permissionrole_bp, url_prefix="/permissions-roles")
 app.register_blueprint(results_bp, url_prefix="/regisNalR")
+app.register_blueprint(authentication_bp, url_prefix="/authentication")
 
-EXCLUDED_URLS = ["/", "/login"]
+EXCLUDED_URLS = ["/", "/authentication/login"]
 
 @app.before_request
 def middleware():
