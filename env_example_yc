@@ -1,4 +1,0 @@
-URL="localhost"
-PORT="5001"
-SECURITY_URL="http://localhost:8080"
-VOTES_URL="http://localhost:5000"
