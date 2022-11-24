@@ -19,6 +19,22 @@ def candidatos():
         return jsonify({
             "message": "Hubo un error al obtener la lista de candidatos"
         }), 500
+    
+@candidato_bp.route("/<int:id>", methods=["GET"])
+def candidato(id):
+    headers = {
+        "Content-Type": "application/json"
+    }
+    response = requests.get(
+        url=f"{VOTES_URL}/regisNalC/{id}",
+        headers=headers
+    )
+    if response.status_code == 200:
+        return jsonify(response.json()), 200
+    else:
+        return jsonify({
+            "message": "Hubo un error al obtener el candidato"
+        }), 500
 
 @candidato_bp.route("", methods=["POST"])
 def create_candidato():
