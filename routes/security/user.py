@@ -8,7 +8,8 @@ user_bp = Blueprint("user_blueprint", __name__)
 def create_user(roleid):
     body = request.get_json()
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": request.headers.get("Authorization")
     }
     response = requests.post(
         url=f"{SECURITY_URL}/users?roleId={roleid}",
@@ -69,6 +70,26 @@ def delete_user(userid):
     if response.status_code == 500:
         return jsonify({
             "message": "Hubo un error al borrar usuario"
+        }), 500
+    else:
+        return jsonify(response.json()), response.status_code
+
+
+@user_bp.route("/<string:userId>", methods=["PUT"])
+def update_user(userId):
+    body = request.get_json()
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": request.headers.get("Authorization")
+    }
+    response = requests.put(
+        url=f"{SECURITY_URL}/users/{userId}",
+        json=body,
+        headers=headers
+    )
+    if response.status_code == 500:
+        return jsonify({
+            "message": "Hubo un error al modificar el usuario"
         }), 500
     else:
         return jsonify(response.json()), response.status_code
