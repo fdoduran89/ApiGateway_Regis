@@ -15,7 +15,7 @@ from routes.security.authentication import authentication_bp
 app = Flask(__name__)
 cors = CORS(app)
 
-app.register_blueprint(mesas_bp, url_prefix ="/regisNal")
+app.register_blueprint(mesas_bp, url_prefix ="/stations")
 app.register_blueprint(partidos_bp, url_prefix = "/parties")
 app.register_blueprint(user_bp, url_prefix ="/users")
 app.register_blueprint(candidato_bp, url_prefix= "/candidates")
