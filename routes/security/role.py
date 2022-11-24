@@ -8,7 +8,8 @@ role_bp = Blueprint("role_blueprint",__name__)
 def create_role():
     body = request.get_json()
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": request.headers.get("Authorization")
     }
     response = requests.post(
         url=f"{SECURITY_URL}/roles",
@@ -25,7 +26,8 @@ def create_role():
 @role_bp.route("", methods=["GET"])
 def roles():
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": request.headers.get("Authorization")
     }
     response = requests.get(
         url=f"{SECURITY_URL}/roles",
@@ -41,7 +43,8 @@ def roles():
 @role_bp.route("/<string:role_id>", methods=["GET"])
 def role(role_id):
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": request.headers.get("Authorization")
     }
     response = requests.get(
         url=f"{SECURITY_URL}/roles/{role_id}",

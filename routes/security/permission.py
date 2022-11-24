@@ -8,7 +8,8 @@ permission_bp = Blueprint("permission_blueprint",__name__)
 def create_permission():
     body = request.get_json()
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": request.headers.get("Authorization")
     }
     response = requests.post(
         url=f"{SECURITY_URL}/permissions",
@@ -25,7 +26,8 @@ def create_permission():
 @permission_bp.route("", methods=["GET"])
 def permissions():
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": request.headers.get("Authorization")
     }
     response = requests.get(
         url=f"{SECURITY_URL}/permissions",
@@ -41,7 +43,8 @@ def permissions():
 @permission_bp.route("/<string:permission_id>", methods=["GET"])
 def rpermission(permission_id):
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": request.headers.get("Authorization")
     }
     response = requests.get(
         url=f"{SECURITY_URL}/permissions/{permission_id}",
