@@ -43,7 +43,8 @@ def permissionroles():
 @permissionrole_bp.route("/<string:permissionrole_id>", methods=["GET"])
 def rpermissionrole(permissionrole_id):
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": request.headers.get("Authorization")
     }
     response = requests.get(
         url=f"{SECURITY_URL}/permissions-roles/{permissionrole_id}",
