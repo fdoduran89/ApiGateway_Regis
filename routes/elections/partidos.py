@@ -55,6 +55,22 @@ def get_partido(nombre_partido):
             "message": "Hubo un error al obtener el partido"
         }), 500    
 
+@partidos_bp.route("/id/<string:id_partido>", methods=["GET"])
+def get_partido_id(id_partido):
+    headers = {
+        "Content-Type": "application/json"
+    }
+    response = requests.get(
+        url=f"{VOTES_URL}/regisNalP/id/{id_partido}",
+        headers=headers
+    )
+    if response.status_code == 200:
+        return jsonify(response.json()), 200
+    else:
+        return jsonify({
+            "message": "Hubo un error al obtener el partido"
+        }), 500
+    
 @partidos_bp.route("/<string:nombre_partido>", methods=["DELETE"])
 def delete_partido(nombre_partido):
     headers = {
