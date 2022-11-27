@@ -22,7 +22,7 @@ app.register_blueprint(candidato_bp, url_prefix= "/candidates")
 app.register_blueprint(role_bp, url_prefix="/roles")
 app.register_blueprint(permission_bp, url_prefix="/permissions")
 app.register_blueprint(permissionrole_bp, url_prefix="/permissions-roles")
-app.register_blueprint(results_bp, url_prefix="/regisNalR")
+app.register_blueprint(results_bp, url_prefix="/reports")
 app.register_blueprint(authentication_bp, url_prefix="/authentication")
 
 EXCLUDED_URLS = ["/", "/authentication/login"]

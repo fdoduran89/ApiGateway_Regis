@@ -19,7 +19,7 @@ def create_party():
         return jsonify(response.json()), 201
     else:
         return jsonify({
-            "message": "Hubo un error al crear la mesa"
+            "message": "Hubo un error al crear el partido"
         }), 500
 
 
